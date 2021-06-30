@@ -1,0 +1,8 @@
+<form action="/ping/" method="post">
+    {% csrf_token %}
+    <input placeholder="Enter Url" id="url" type="text" name="url" value="{{ current_url }}">
+    <input type="submit" value="OK">
+</form>
+{% block content %}
+
+{% endblock %}
