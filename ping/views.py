@@ -33,7 +33,9 @@ def ping(request):
                 status_code, response_time, is_matching = "N/A", "N/A", "N/A"
 
             context = {"url": url, "status_code": status_code, "response_time": response_time, "match": is_matching}
-            return render(request, 'ping-data.html', context)
+            return render(request, 'result.html', context)
+        else:
+            return HttpResponseRedirect(reverse('home'))
     else:
         return HttpResponseRedirect(reverse('home'))
 
