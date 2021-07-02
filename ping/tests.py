@@ -11,16 +11,16 @@ class CustomUrlTests(TestCase):
             link="https://www.google.com",
             status=200,
             response_time=0.2,
-            regexp="g....e",
-            regexp_match="Yes",
-            match_details="<re.Match object; span=(186, 192), match='google'>"
+            regexp="^google",
+            regexp_match=False,
+            match_details=None
         )
         self.assertEqual(test_url.link, 'https://www.google.com')
         self.assertEqual(test_url.status, 200)
         self.assertEqual(test_url.response_time, 0.2)
-        self.assertEqual(test_url.regexp, 'g....e')
-        self.assertEqual(test_url.regexp_match, 'Yes')
-        self.assertEqual(test_url.match_details, "<re.Match object; span=(186, 192), match='google'>")
+        self.assertEqual(test_url.regexp, '^google')
+        self.assertEqual(test_url.regexp_match, False)
+        self.assertEqual(test_url.match_details, None)
 
 
 class IndexPageTests(SimpleTestCase):
@@ -68,4 +68,4 @@ class ResultPageTests(TestCase):
         self.assertContains(self.response_correct, 'Your Ping information on')
 
     def test_result_page_does_not_contain_incorrect_html(self):
-        self.assertNotContains(self.response_correct, "Url Ping")
+        self.assertNotContains(self.response_correct, "What will you get")
