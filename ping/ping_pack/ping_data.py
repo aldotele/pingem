@@ -25,14 +25,16 @@ class Ping:
 
     @staticmethod
     def is_regexp_matching(regular_expression, content):
+        print(regular_expression)
         try:
-            out = re.search(regular_expression, content)
+            out = re.search(regular_expression, content)  # check this !!! previously: re.search
+            print(out)
         except:
             return "", ""
         if out and regular_expression != '':
             return "Yes", out
         elif regular_expression == '':
-            return ""
+            return "", ""
         else:
             return "No", ""
 
