@@ -2,6 +2,7 @@ from django.test import TestCase, SimpleTestCase
 from ping.models import Url
 from django.urls import reverse
 from ping.forms import UrlForm
+from ping.ping_pack.ping_data import Ping
 
 
 class CustomUrlTests(TestCase):
@@ -69,3 +70,21 @@ class ResultPageTests(TestCase):
 
     def test_result_page_does_not_contain_incorrect_html(self):
         self.assertNotContains(self.response_correct, "What will you get")
+
+
+class TestPing(TestCase):
+    def setUp(self):
+        self.good_ping = Ping("https://www.google.com")
+
+    def test_ping(self):
+        self.assertIsInstance(self.good_ping, Ping)
+        self.assertIsInstance(self.good_ping.status, int)
+        self.assertEqual(self.good_ping.status, 200)
+        self.assertIsInstance(self.good_ping.response_time, str)  # change to float !
+        self.assertIsInstance(self.good_ping.content, str)  # check with other urls
+        self.assertRaises(ConnectionError, Ping, "https://www.google_plus_some_random_stuff.com")
+        self.assertRaises(ConnectionError, Ping, "ww.google.com")
+        self.assertRaises(ConnectionError, Ping, "www.google.comm")
+
+
+
