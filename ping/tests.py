@@ -1,14 +1,28 @@
 from django.test import TestCase, SimpleTestCase
-from ping.models import Url
 from django.urls import reverse
+from ping.models import Url
 from ping.forms import UrlForm
 from ping.ping_pack.ping_data import Ping
 
 
+class CustomUrlFormTests(TestCase):
+    def test_create_form(self):
+        form_good_1 = UrlForm(data={"url": "https://www.google.com", "regexp": "^<"})
+        form_good_2 = UrlForm(data={"url": "http://www.google.com", "regexp": ""})
+        form_missing_url = UrlForm(data={"url": "", "regexp": ""})  # url is mandatory
+        form_bad_url = UrlForm(data={"url": "this is not a url", "regexp": ""})
+        form_not_existing_url = UrlForm(data={"url": "https://www.websitethatdoesnotexist.com/", "regexp": ""})
+
+        self.assertTrue(form_good_1.is_valid())
+        self.assertTrue(form_good_2.is_valid())
+        self.assertFalse(form_missing_url.is_valid())
+        self.assertFalse(form_bad_url.is_valid())
+        self.assertTrue(form_not_existing_url.is_valid())  # accepted because the url formatting is correct
+
+
 class CustomUrlTests(TestCase):
     def test_create_url(self):
-        url_entity = Url
-        test_url = url_entity.objects.create(
+        custom_url = Url.objects.create(
             link="https://www.google.com",
             status=200,
             response_time=0.2,
@@ -16,12 +30,12 @@ class CustomUrlTests(TestCase):
             regexp_match=False,
             match_details=None
         )
-        self.assertEqual(test_url.link, 'https://www.google.com')
-        self.assertEqual(test_url.status, 200)
-        self.assertEqual(test_url.response_time, 0.2)
-        self.assertEqual(test_url.regexp, '^google')
-        self.assertEqual(test_url.regexp_match, False)
-        self.assertEqual(test_url.match_details, None)
+        self.assertEqual(custom_url.link, 'https://www.google.com')
+        self.assertEqual(custom_url.status, 200)
+        self.assertEqual(custom_url.response_time, 0.2)
+        self.assertEqual(custom_url.regexp, '^google')
+        self.assertEqual(custom_url.regexp_match, False)
+        self.assertEqual(custom_url.match_details, None)
 
 
 class IndexPageTests(SimpleTestCase):
@@ -86,5 +100,21 @@ class TestPing(TestCase):
         self.assertRaises(ConnectionError, Ping, "ww.google.com")
         self.assertRaises(ConnectionError, Ping, "www.google.comm")
 
+    def test_connect_attempt(self):
+        self.assertRaises(ConnectionError, Ping.connect_attempt, "https://www.this_url_does_not_exist.com")
+        self.assertIsNotNone(Ping.connect_attempt("https://www.google.com"))
+        self.assertIsInstance(Ping.connect_attempt("https://www.google.com"), object)
 
+    def test_is_regexp_matching(self):
+        self.assertIsNotNone(Ping.is_regexp_matching("^m...h$", "match"))
+        self.assertTrue(Ping.is_regexp_matching("^m...h$", "match")[0])
+        self.assertEqual(Ping.is_regexp_matching("^m...h$", "match")[1], "match")
+        self.assertFalse(Ping.is_regexp_matching("^m...h$", "not_a_match")[0])
+        self.assertEqual(Ping.is_regexp_matching("^m...h$", "not_a_match")[1], "")
+        self.assertIsInstance(Ping.is_regexp_matching("^m", "match")[1], str)
 
+    def test_get_ping_data(self):
+        self.assertIsInstance(self.good_ping.get_ping_data()[0], int)
+        self.assertIsInstance(self.good_ping.get_ping_data()[1], str)
+        self.assertIsInstance(self.good_ping.get_ping_data()[2], str)
+        self.assertIn(".", self.good_ping.get_ping_data()[1])
