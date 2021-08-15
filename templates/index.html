@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Url Ping</title>
+        <title>Pingem</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap icons-->
@@ -17,7 +17,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
-    <body>
+    <body style="font-family:'Roboto Mono', monospace;">
         <!-- Masthead-->
         {% block main-content %}
 
@@ -27,7 +27,7 @@
                     <div class="col-xl-6">
                         <div class="text-center text-white">
                             <!-- Page heading-->
-                            <h1 class="mb-5">Url Ping</h1>
+                            <h1 class="mb-5">Pingem</h1>
                             <!-- Ping form-->
                             <form action="/ping/" method="post">
                                 {% csrf_token %}
