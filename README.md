@@ -1,4 +1,4 @@
-# URL Ping
+# Pingem
 
 This is a system to monitor availability of APIs with the option
 of checking whether the API response matches a specific pattern or not. 
