@@ -16,7 +16,7 @@ class Ping:
     @staticmethod
     def connect_attempt(url):
         try:
-            response = requests.get(url, timeout=6)
+            response = requests.get(url, timeout=10)
             # r.raise_for_status()  # this would not allow to save other status codes
             return response
         except:
