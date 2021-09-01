@@ -8,3 +8,6 @@ class Url(models.Model):
     regexp = models.CharField(max_length=1024, blank=True, null=True)
     regexp_match = models.BooleanField(blank=True, null=True)
     match_details = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.link
