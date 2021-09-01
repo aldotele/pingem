@@ -22,7 +22,7 @@ def ping(request):
                 current_ping = Ping(url)
                 status_code, response_time, resp_content = current_ping.get_ping_data()
                 is_matching, matching_details = Ping.is_regexp_matching(regexp, resp_content)
-                #Ping.save_ping_data(url, status_code, response_time, regexp, is_matching, matching_details)
+                Ping.save_ping_data(url, status_code, response_time, regexp, is_matching, matching_details)
             except ConnectionError:  # return "N/A" in case attempt not being successful
                 status_code, response_time, is_matching = "N/A", "N/A", "N/A"
             # creating context variables that will be accessed inside result template
