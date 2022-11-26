@@ -38,7 +38,7 @@ a `ConnectionError` is raised.
 - the response content (eventually useful to find matching patterns)
 
 #### Database Entities
-SQLite3 database is used.\
+A PostgreSQL database is used.\
 a `Url` is present, with six tables where to store
 the main "ping" data: the url, the status code, the response time,
 the provided regexp (if any), a boolean regexp match and matching details (if any).\
