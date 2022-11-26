@@ -21,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "url_ping/wsgi.py"
+      "dest": "url_ping/url_ping_conf/wsgi.py"
     }
   ]
 }
