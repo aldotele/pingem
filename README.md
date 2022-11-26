@@ -1,6 +1,6 @@
 # Pingem
 
-This is a system to monitor availability of APIs with the option
+**Pingem** is a system to monitor availability of APIs with the option
 of checking whether the API response matches a specific pattern or not. 
 This is done by providing an optional *regex* as a parameter of the request.
 The system will always provide two information:
