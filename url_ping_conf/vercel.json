@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "url_ping/url_ping_conf/wsgi.py",
+      "src": "url_ping_conf/wsgi.py",
       "use": "@vercel/python",
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     },
@@ -21,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "url_ping/url_ping_conf/wsgi.py"
+      "dest": "url_ping_conf/wsgi.py"
     }
   ]
 }
